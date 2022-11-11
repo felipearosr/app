@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  userId    String   @unique
+}
+
+model User {
+  id           String   @id
+  name         String?
+  email        String   @unique
+  username     String   @unique
+  password     String
+  profileImage String?  @default("https://res.cloudinary.com/dzcmadjl1/image/upload/v1600000000/placeholder.png")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime
+  role         Role     @default(USER)
+}
+
+model Product {
+  id            String @id
+  name          String
+  price         Int
+  description   String?
+  productImage  String?
+}
+
+enum Role {
+  USER
+  ADMIN
+}
